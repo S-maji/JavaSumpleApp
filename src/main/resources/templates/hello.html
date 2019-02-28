@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorator="layout">
+	<th:block layout:fragment="content">
+		<div class="text-center col-md-12">
+		<form th:action="@{/search}" method="get">
+			<input type="text" name="name" placeholder="ユーザー名">
+			<input type="submit" value="検索">
+		</form>
+			<h1>ユーザーページ</h1>
+			<p>ユーザー名：<span th:text="${name}"></span>:ID:<span th:text="${userid}"></span></p>
+			<div th:unless="${loginUser == user}">
+				<th:block th:unless = "${fvuser}">
+					<form th:action="@{/follow/__${userid}__}"  th:method="post">
+						<input type="submit" value="Follow">
+					</form>
+				</th:block>
+				<th:block th:if = "${fvuser}">
+					<form th:action="@{/follow/__${userid}__}"  th:method="delete">
+						<input type="submit" value="UnFollow">
+					</form>
+				</th:block>
+			</div>
+
+			<form th:action="@{/post}" method="post" th:object="${postForm}">
+				<input type="text" name="text" placeholder="入力">
+				<input type="submit" value="投稿">
+			</form>
+
+			<p>ユーザーの投稿</p>
+
+				<div>
+					<table th:if="${usersPost != null}">
+						<tr th:each="post:${usersPost}">
+							<td><span th:text="${post.text}"></span></td>
+							<td><form th:if="${post.user == loginUser}" th:action="@{/post/__${post.id}__}" th:method="delete">
+		                		<input type="submit" th:if="${post.user == loginUser}" th:action="@{/post/__${post.id}__}" th:method="delete" value="削除" />
+		              		</form></td>
+						</tr>
+					</table>
+				</div>
+
+			<a th:href = "@{/postAll}">一覧ページ</a>
+
+			<a th:href = "@{/}">トップ</a>
+			<h1>フォローユーザー一覧</h1>
+			<div class="col-md-8 offset-md-2">
+				<table th:if="${allUsers != null}">
+					<tr>
+						<th>ユーザー</th>
+					</tr>
+					<tr th:each="user:${allUsers}">
+						<td><a th:href="@{/hello/__${user.id}__}" th:text="${user.name}"></a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</th:block>
+</html>

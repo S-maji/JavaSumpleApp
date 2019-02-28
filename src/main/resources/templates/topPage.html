@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorator="layout">
+
+		<th:block layout:fragment="content">
+			<div class="text-center col-md-12">
+				<h1>Spring学習用でもあぷり</h1>
+				<div>
+					<a th:href = "@{postAll}">投稿一覧</a>
+				</div>
+				<div>
+					<a th:href = "@{allUsers}">ユーザー一覧</a>
+				</div>
+				<div>
+					<a th:if="${user}" th:href = "@{hello/__${user.id}__}">マイページ</a>
+				</div>
+				<div>
+					<a th:unless="${user}" th:href = "@{login}">ログイン</a>
+				</div>
+			</div>
+		</th:block>
+
+</html>

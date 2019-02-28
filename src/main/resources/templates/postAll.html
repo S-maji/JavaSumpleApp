@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorator="layout">
+	<th:block layout:fragment="content">
+
+		<h3>全投稿取得</h3>
+			<div class="col-md-8 offset-md-2">
+				<table th:if="${postAll != null}">
+					<tr>
+						<th>ユーザー</th>
+						<th>投稿</th>
+					</tr>
+					<tr th:each="post:${postAll}">
+						<td><a th:href="@{/hello/__${post.user.id}__}" th:text="${post.user.name}"></a></td>
+						<td th:text="${post.text}">本文</td>
+					</tr>
+			</table>
+
+			<a th:href = "@{/}">トップ</a>
+
+			<a th:href = "@{logout}">ろぐあうと</a>
+
+			<a th:if="loginUser" th:href = "@{hello/__${user.id}__}">ユーザーページ</a>
+		</div>
+
+	</th:block>
+
+</html>
